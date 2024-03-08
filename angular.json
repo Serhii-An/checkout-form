@@ -32,7 +32,12 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "./node_modules/inputmask/dist/jquery.inputmask.min.js",
+              "./node_modules/inputmask/dist/bindings/inputmask.binding.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -63,6 +68,11 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "checkout-form:build",
+            "proxyConfig": "proxy.conf.js",
+            "port": 4200
+         },
           "configurations": {
             "production": {
               "browserTarget": "checkout-form:build:production"

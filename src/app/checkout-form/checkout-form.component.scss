@@ -1,0 +1,37 @@
+h2 {
+    height: 50px;
+    position: sticky;
+    top:-2px;
+    background-color: #fff;
+    margin-bottom: 1rem;
+    margin-top: 5rem;
+    box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.2);
+    text-align: center;
+    z-index: 100;
+}
+
+#checkoutForm .ng-invalid.ng-touched {
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 0.25rem var(--error-color-rgba);
+}
+
+.custom-dropdown-holder {
+    display: block;
+    width: min-content;
+}
+
+.modal {
+    display: block;
+    margin-top: 30vh;
+    z-index: 300;
+}
+
+.fading {
+    background-color: rgba($color: #000000, $alpha: 0.4);
+    z-index: 200;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+}

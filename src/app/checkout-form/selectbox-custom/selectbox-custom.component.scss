@@ -1,0 +1,11 @@
+.dropdown-menu {
+    padding: 1rem;
+}
+
+label, .dropdown li {
+    cursor: pointer;
+}
+
+.dropdown-menu.show {
+    width: max-content;
+}

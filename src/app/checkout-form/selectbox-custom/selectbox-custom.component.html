@@ -1,0 +1,11 @@
+<div class="dropdown">
+    <button  class="btn btn-primary dropdown-toggle" type="button" id="countrySelect" data-bs-toggle="dropdown" aria-expanded="false">
+        {{value ? value : 'Choose a country'}}
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="countrySelect">
+      <li>
+        <input type="text"  class="form-control mb-2" (keyup)="this.countryInputUpdate.next($event)" placeholder="Type to search" />
+      </li>
+      <li *ngFor="let item of countriesList" (click)="setCountryValue(item.country)" title="{{item.country}}">{{item.country}}</li>
+    </ul>
+</div>

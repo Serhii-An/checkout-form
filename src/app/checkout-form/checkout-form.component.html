@@ -1,0 +1,179 @@
+<h1 class="text-center mt-3">Checkout form</h1>
+
+
+<form [formGroup]="checkoutForm" id="checkoutForm" class="mb-3">
+  <section class="mb-3">
+      <h2>Personal information</h2>
+      <fieldset>
+        <div class="mb-3">
+            <label for="firstName" class="form-label">First Name<sup *ngIf="isRequiredField('firstName')">*</sup></label>
+            <input
+                type="text"
+                id="firstName"
+                class="form-control"
+                aria-describedby="firstName"
+                formControlName="firstName"
+                placeholder="First Name" />
+            <app-show-error 
+                [displayError]="isFieldValid('firstName')" 
+                errorMsg="Please enter your first name">
+            </app-show-error>
+        </div>
+
+        <div class="mb-3">
+            <label for="firstName" class="form-label">Last Name<sup *ngIf="isRequiredField('lastName')">*</sup></label>
+            <input
+                type="text"
+                id="lastName"
+                class="form-control"
+                aria-describedby="lastName"
+                formControlName="lastName"
+                placeholder="Last Name" />
+            <app-show-error 
+                [displayError]="isFieldValid('lastName')" 
+                errorMsg="Please enter your last name">
+            </app-show-error>
+        </div>
+      </fieldset>
+    </section>
+
+    <section class="mb-3">
+      <h2>Contact information</h2>
+      
+      <fieldset>
+        <div class="mb-3" formArrayName="phoneNumbers">
+          <label for="phoneNumber-0" class="form-label">Phone Number</label>
+              <div class="d-flex justify-content-between mb-3" *ngFor="let number of phoneNumbers.controls; let i = index">
+                <input
+                  type="tel"
+                  id="phoneNumber-{{i}}"
+                  class="form-control w-50"
+                  aria-describedby="phoneNumbers"
+                  formControlName="{{i}}"
+                  placeholder="Phone Number" />
+                  <button class="btn btn-danger btn-sm" (click)="removePhoneNumber(i)" *ngIf="i > 0">Remove phone</button>
+                </div>
+
+            <button class="btn btn-secondary btn-sm" (click)="addPhoneNumber()" [disabled]="phoneNumbers.length > 2">Add phone</button>
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email<sup *ngIf="isRequiredField('email')">*</sup></label>
+          <input
+              (blur)="setControlValue($event, 'email')"
+              type="text"
+              id="email"
+              class="form-control"
+              aria-describedby="email"
+              formControlName="email"
+              placeholder="Email" />
+              
+          <app-show-error 
+              [displayError]="isFieldValid('email')" 
+              errorMsg="{{checkoutForm.controls['email'].errors?.['emailExists'] ? 'Email already exists' : 'Please enter correct email'}}">
+          </app-show-error>
+        </div>
+
+        <div class="mb-3">
+          <label for="countrySelect" class="form-label">Country<sup *ngIf="isRequiredField('countryControl')">*</sup></label>
+          <app-selectbox-custom formControlName="countryControl" [countriesList]="filteredCountriesList"  class="custom-dropdown-holder"></app-selectbox-custom>
+          
+          <app-show-error 
+            [displayError]="isFieldValid('countryControl')" 
+            errorMsg="Please enter your country">
+          </app-show-error>
+        </div>
+      </fieldset>
+    </section>
+
+    <section class="mb-3">
+      <h2>Payment details</h2>
+      <fieldset>
+        <div class="mb-3">
+          <label for="address" class="form-label">Address<sup *ngIf="isRequiredField('address')">*</sup></label>
+          <input
+              type="text"
+              id="address"
+              class="form-control"
+              aria-describedby="address"
+              formControlName="address"
+              placeholder="Address" />
+          <app-show-error 
+              [displayError]="isFieldValid('address')" 
+              errorMsg="Please enter your address">
+          </app-show-error>
+        </div>
+
+      <div class="mb-3">
+        <label for="ccNumber" class="form-label">Credit card<sup *ngIf="isRequiredField('ccNumber')">*</sup></label>
+        <input
+            (change)="setControlValue($event, 'ccNumber')"
+            type="text"
+            id="ccNumber"
+            class="form-control"
+            aria-describedby="ccNumber"
+            formControlName="ccNumber"
+            placeholder="Credit card" />
+        <app-show-error 
+            [displayError]="isFieldValid('ccNumber')" 
+            errorMsg="Please enter your credit card">
+        </app-show-error>
+      </div>
+
+      <div class="mb-3">
+        <label for="ccCVV" class="form-label">CVV2 code<sup *ngIf="isRequiredField('ccCVV')">*</sup></label>
+        <input
+            type="text"
+            id="ccCVV"
+            class="form-control"
+            aria-describedby="ccCVV"
+            formControlName="ccCVV"
+            placeholder="CVV2 code" />
+        <app-show-error 
+            [displayError]="isFieldValid('ccCVV')" 
+            errorMsg="Please enter valid CVV2 code">
+        </app-show-error>
+      </div>
+
+      <div class="mb-3 form-check">
+        <div><input type="checkbox" class="form-check-input" id="agreement" formControlName="agreement" />
+        <label class="form-check-label" for="agreement">Agreement with <a href="http://www.URL-to-the-agreement">terms of use</a><sup *ngIf="isRequiredField('agreement')">*</sup></label></div>
+        <app-show-error 
+          [displayError]="isFieldValid('agreement')" 
+          errorMsg="You must agree before submitting">
+        </app-show-error>
+      </div>
+    </fieldset>
+    <small><i>Required fields are marked with an asterisk (*)</i></small>
+  </section>
+
+  <div class="text-center mt-5">
+    <button type="submit" class="btn btn-primary" [disabled]="formIsSubmitting" (click)="onSubmit()">
+      <span
+        *ngIf="formIsSubmitting"
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true">
+      </span>
+    
+      Submit<ng-container *ngIf="formIsSubmitting">ting</ng-container>
+    </button>
+  </div>
+</form>
+
+
+<div class="modal" tabindex="-1" *ngIf="showModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-body">
+        <p>Form has been submitted<br />
+          Please check result in console</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="showModal=false"  class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="fading" *ngIf="showModal"></div>
