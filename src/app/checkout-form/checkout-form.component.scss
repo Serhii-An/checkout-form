@@ -5,9 +5,10 @@ h2 {
     background-color: #fff;
     margin-bottom: 1rem;
     margin-top: 5rem;
-    box-shadow: 0px 10px 15px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 5px 10px 0px rgba(0,0,0,0.1);
     text-align: center;
     z-index: 100;
+    outline: #000000;
 }
 
 #checkoutForm .ng-invalid.ng-touched {
