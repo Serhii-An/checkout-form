@@ -100,7 +100,6 @@ export class CheckoutFormComponent implements OnInit, OnDestroy {
 
   isRequiredField(field: string): boolean {
     const validator = this.checkoutForm.controls[field].validator!({} as AbstractControl);
-    console.log(validator);
     if (validator && validator['required']) {
       return true;
     }
